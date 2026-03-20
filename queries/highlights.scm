@@ -1,52 +1,65 @@
-; Tags
+; === TAGS ===
+
+; Default tag color
 (tag_name) @tag
 
-; Control flow tags as keywords
-((tag_name) @keyword
-  (#match? @keyword "^(show-me|hide-me|in-case|or-case|no-case|switch-on|case-of|fall-back|for-each|slot)$"))
+; Control flow tags — stand out as language keywords
+((tag_name) @keyword.control
+  (#match? @keyword.control "^(show-me|hide-me|in-case|or-case|no-case|switch-on|case-of|fall-back|for-each|slot)$"))
 
-; Empty tags
-((tag_name) @keyword
-  (#match? @keyword "^empty-"))
+; Empty fallback tags
+((tag_name) @keyword.control
+  (#match? @keyword.control "^empty-"))
 
-; Component tags (hyphenated)
+; Component tags (hyphenated custom elements)
 ((tag_name) @type
   (#match? @type "^[a-z]+-.*-[a-z]+$"))
 
-; Attribute names
+; Closing tags match opening
+(end_tag (tag_name) @tag)
+
+; === ATTRIBUTES ===
+
+; Default attribute name
 (attribute_name) @attribute
 
-; Special attribute names
+; Framework attributes — css, theme, on-*, action-*, active
 ((attribute_name) @keyword
   (#match? @keyword "^(css|theme|on-[a-z]+|action-[a-z]+|active)$"))
 
-; Private props ($name)
-((attribute_name) @variable.special
-  (#match? @variable.special "^\\$"))
+; Private props ($name) — distinct from regular attributes
+((attribute_name) @constant
+  (#match? @constant "^\\$"))
 
 ; Quoted attribute values
 (quoted_attribute_value) @string
 (attribute_string_content_double) @string
 (attribute_string_content_single) @string
 
-; Expression values — braces
-(expression_value "{" @punctuation.bracket)
-(expression_value "}" @punctuation.bracket)
-(expression "{" @punctuation.bracket)
-(expression "}" @punctuation.bracket)
+; === EXPRESSIONS ===
 
-; Objects
+; Expression braces
+(expression_value "{" @punctuation.special)
+(expression_value "}" @punctuation.special)
+(expression "{" @punctuation.special)
+(expression "}" @punctuation.special)
+
+; Object braces
 (object "{" @punctuation.bracket)
 (object "}" @punctuation.bracket)
 
-; Arrays
+; Array brackets
 (array "[" @punctuation.bracket)
 (array "]" @punctuation.bracket)
 
-; Property keys (mobile:, display:, theme:)
+; Parens
+(paren_expression "(" @punctuation.bracket)
+(paren_expression ")" @punctuation.bracket)
+
+; Property keys (mobile:, display:, theme:, gap:)
 (property_key) @property
 
-; Strings inside expressions
+; Strings
 (string) @string
 (string_content) @string
 
@@ -56,24 +69,28 @@
 ; Booleans
 (boolean) @constant.builtin
 
-; Identifiers inside expressions
+; $prop variables — use constant to stand out from regular identifiers
+((identifier) @constant
+  (#match? @constant "^\\$"))
+
+; Dotted paths (hook.title) — treat as property access
+((identifier) @variable
+  (#match? @variable "\\."))
+
+; Regular identifiers
 (identifier) @variable
 
-; $prop identifiers
-((identifier) @variable.special
-  (#match? @variable.special "^\\$"))
-
-; Operators and punctuation
+; Operators
 (operator) @operator
 
-; Comments
+; === COMMENTS ===
 (comment) @comment
 (comment_content) @comment
 
-; Text
+; === TEXT ===
 (text) @none
 
-; Tag punctuation
+; === TAG PUNCTUATION ===
 (start_tag "<" @punctuation.bracket)
 (start_tag ">" @punctuation.bracket)
 (end_tag "</" @punctuation.bracket)
