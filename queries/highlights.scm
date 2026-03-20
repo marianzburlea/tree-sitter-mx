@@ -9,7 +9,7 @@
 ((tag_name) @keyword
   (#match? @keyword "^empty-"))
 
-; Component tags (hyphenated, ending with HTML tag)
+; Component tags (hyphenated)
 ((tag_name) @type
   (#match? @type "^[a-z]+-.*-[a-z]+$"))
 
@@ -18,29 +18,53 @@
 
 ; Special attribute names
 ((attribute_name) @keyword
-  (#match? @keyword "^(css|theme|on-[a-z]+|action-[a-z]+)$"))
+  (#match? @keyword "^(css|theme|on-[a-z]+|action-[a-z]+|active)$"))
 
 ; Private props ($name)
 ((attribute_name) @variable.special
   (#match? @variable.special "^\\$"))
-
-; Active attribute
-((attribute_name) @keyword
-  (#match? @keyword "^active$"))
 
 ; Quoted attribute values
 (quoted_attribute_value) @string
 (attribute_string_content_double) @string
 (attribute_string_content_single) @string
 
-; Expression values (inside {})
-(expression_value) @embedded
+; Expression values — braces
+(expression_value "{" @punctuation.bracket)
+(expression_value "}" @punctuation.bracket)
+(expression "{" @punctuation.bracket)
+(expression "}" @punctuation.bracket)
 
-; Text expressions
-(expression) @embedded
+; Objects
+(object "{" @punctuation.bracket)
+(object "}" @punctuation.bracket)
+
+; Arrays
+(array "[" @punctuation.bracket)
+(array "]" @punctuation.bracket)
+
+; Property keys (mobile:, display:, theme:)
+(property_key) @property
 
 ; Strings inside expressions
-(expression_content (string) @string)
+(string) @string
+(string_content) @string
+
+; Numbers
+(number) @number
+
+; Booleans
+(boolean) @constant.builtin
+
+; Identifiers inside expressions
+(identifier) @variable
+
+; $prop identifiers
+((identifier) @variable.special
+  (#match? @variable.special "^\\$"))
+
+; Operators and punctuation
+(operator) @operator
 
 ; Comments
 (comment) @comment
@@ -49,7 +73,7 @@
 ; Text
 (text) @none
 
-; Punctuation
+; Tag punctuation
 (start_tag "<" @punctuation.bracket)
 (start_tag ">" @punctuation.bracket)
 (end_tag "</" @punctuation.bracket)

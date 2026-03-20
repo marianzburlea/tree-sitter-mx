@@ -1,5 +1,52 @@
 [
   {
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "paren_expression",
+          "named": true
+        },
+        {
+          "type": "property_key",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attribute",
     "named": true,
     "fields": {},
@@ -29,27 +76,9 @@
     "fields": {}
   },
   {
-    "type": "bracket_content",
+    "type": "boolean",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "bracket_content",
-          "named": true
-        },
-        {
-          "type": "expression_content",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "comment",
@@ -157,11 +186,43 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "expression_content",
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "paren_expression",
+          "named": true
+        },
+        {
+          "type": "property_key",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -187,7 +248,7 @@
     }
   },
   {
-    "type": "expression_content",
+    "type": "expression_value",
     "named": true,
     "fields": {},
     "children": {
@@ -195,11 +256,35 @@
       "required": false,
       "types": [
         {
-          "type": "bracket_content",
+          "type": "array",
           "named": true
         },
         {
-          "type": "expression_content",
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "paren_expression",
+          "named": true
+        },
+        {
+          "type": "property_key",
           "named": true
         },
         {
@@ -210,15 +295,94 @@
     }
   },
   {
-    "type": "expression_value",
+    "type": "object",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "expression_content",
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "paren_expression",
+          "named": true
+        },
+        {
+          "type": "property_key",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "paren_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "paren_expression",
+          "named": true
+        },
+        {
+          "type": "property_key",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -292,7 +456,17 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "\"",
@@ -359,12 +533,40 @@
     "named": true
   },
   {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "operator",
+    "named": true
+  },
+  {
+    "type": "property_key",
+    "named": true
+  },
+  {
+    "type": "string_content",
+    "named": true
+  },
+  {
     "type": "tag_name",
     "named": true
   },
   {
     "type": "text",
     "named": true
+  },
+  {
+    "type": "true",
+    "named": false
   },
   {
     "type": "{",

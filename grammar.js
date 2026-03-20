@@ -16,7 +16,6 @@ module.exports = grammar({
       $.text,
     ),
 
-    // <div class="box" css={{ mobile: { display: 'flex' } }}>...</div>
     element: $ => seq(
       $.start_tag,
       repeat($._node),
@@ -36,7 +35,6 @@ module.exports = grammar({
       '>',
     ),
 
-    // <img /> <slot /> <counter-div />
     self_closing_element: $ => seq(
       '<',
       $.tag_name,
@@ -51,7 +49,6 @@ module.exports = grammar({
       $.expression_attribute,
     ),
 
-    // class="box" href="/about" required
     attribute: $ => seq(
       $.attribute_name,
       optional(seq(
@@ -60,7 +57,6 @@ module.exports = grammar({
       )),
     ),
 
-    // css={{ mobile: { display: 'flex' } }} on-click={handler} $title={hook.title}
     expression_attribute: $ => seq(
       $.attribute_name,
       '=',
@@ -80,43 +76,59 @@ module.exports = grammar({
     // {expression} — balanced braces
     expression_value: $ => seq(
       '{',
-      optional($.expression_content),
+      optional($._expression_inner),
       '}',
     ),
 
     // {expression} in text content
     expression: $ => seq(
       '{',
-      optional($.expression_content),
+      optional($._expression_inner),
       '}',
     ),
 
-    // Content inside {} — handles nested braces, strings, etc.
-    expression_content: $ => repeat1(choice(
-      // Nested braces (objects, blocks)
-      seq('{', optional($.expression_content), '}'),
-      // Nested brackets (arrays)
-      seq('[', optional($.bracket_content), ']'),
-      // Nested parens
-      seq('(', optional($.expression_content), ')'),
-      // Strings
-      $.string,
-      // Everything else except closing brace/bracket/paren
-      /[^{}\[\]()'"`]+/,
-    )),
+    // Fine-grained tokens inside expressions
+    _expression_inner: $ => repeat1($._expression_token),
 
-    bracket_content: $ => repeat1(choice(
-      seq('[', optional($.bracket_content), ']'),
-      seq('{', optional($.expression_content), '}'),
+    _expression_token: $ => choice(
+      $.object,
+      $.array,
+      $.paren_expression,
       $.string,
-      /[^\[\]{}'"`]+/,
-    )),
+      $.number,
+      $.boolean,
+      $.property_key,
+      $.identifier,
+      $.operator,
+    ),
+
+    // { key: value, ... }
+    object: $ => seq('{', optional($._expression_inner), '}'),
+
+    // [1, 2, 3]
+    array: $ => seq('[', optional($._expression_inner), ']'),
+
+    // (expression)
+    paren_expression: $ => seq('(', optional($._expression_inner), ')'),
 
     string: $ => choice(
-      seq("'", /[^']*/, "'"),
-      seq('"', /[^"]*/, '"'),
-      seq('`', /[^`]*/, '`'),
+      seq("'", optional(alias(/[^']*/, $.string_content)), "'"),
+      seq('"', optional(alias(/[^"]*/, $.string_content)), '"'),
+      seq('`', optional(alias(/[^`]*/, $.string_content)), '`'),
     ),
+
+    number: $ => /\d+(\.\d+)?/,
+
+    boolean: $ => choice('true', 'false'),
+
+    // key: (inside objects — identifier followed by colon)
+    property_key: $ => /[a-zA-Z_$][a-zA-Z0-9_$-]*:/,
+
+    // identifiers, dotted paths (hook.title, $count)
+    identifier: $ => /[$a-zA-Z_][a-zA-Z0-9_$.]*/,
+
+    // punctuation and operators
+    operator: $ => /[,=><+\-*/?!&|:]+/,
 
     // <!-- comment -->
     comment: $ => seq('<!--', $.comment_content, '-->'),
