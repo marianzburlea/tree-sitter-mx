@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for Alieve .mx templates",
+    "authors": [
+      { "name": "Marian Zburlea" }
+    ],
+    "links": {
+      "repository": "https://github.com/nicetransition/tree-sitter-mx"
+    }
+  },
+  "grammars": [
+    {
+      "name": "mx",
+      "scope": "source.mx",
+      "path": ".",
+      "file-types": ["mx"],
+      "highlights": "queries/highlights.scm"
+    }
+  ]
+}
